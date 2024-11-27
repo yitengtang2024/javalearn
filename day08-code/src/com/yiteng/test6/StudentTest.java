@@ -55,7 +55,11 @@ public class StudentTest {
 
     private static void printstudent(Student[] students) {
         for (Student student : students) {
-            System.out.println(student.toString());
+            if (student != null) {
+                System.out.println(student.toString());
+            }else{
+                break;
+            }
         }
     }
     private static int getCount(Student[] students) {
