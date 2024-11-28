@@ -16,7 +16,7 @@ public class StringDemo6 {
         String year = dob.substring(0,4);
         String month = dob.substring(4,6);
         String day= dob.substring(6);
-        String gender = id.substring(16,17);
+        String gender = id.substring(16,17);// id.charAt(16) single char
         String genderS="";
         String displayDOB = year+"-"+month+"-"+day;
         int genderInt = Integer.parseInt(gender);
