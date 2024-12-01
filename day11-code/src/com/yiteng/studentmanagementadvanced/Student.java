@@ -1,4 +1,5 @@
-package com.yiteng.studentmanagement;
+package com.yiteng.studentmanagementadvanced;
+
 
 public class Student {
     private String id;
