@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-
 public class studentManagement {
+    private static final String ADD_STUDENT = "1";
+    private static final String DELETE_STUDENT = "2";
+    private static final String UPDATE_STUDENT = "3";
+    private static final String QUERY_STUDENT = "4";
+    private static final String EXIT = "5";
+
     public static void main(String[] args) {
         boolean flag = true;
         ArrayList<Student> students = new ArrayList<>();
@@ -18,32 +23,32 @@ public class studentManagement {
             System.out.println("5：退出");
             System.out.println("请输入您的选择:");
             Scanner sc = new Scanner(System.in);
-            int selection = sc.nextInt();
+            String selection = sc.next();
             switch (selection) {
-                case 1:
+                case ADD_STUDENT:
                     System.out.println("-------------添加学生-------------");
                     addStudent(students);
                     System.out.println(students);
                     break;
-                case 2:
+                case DELETE_STUDENT:
                     System.out.println("-------------删除学生-------------");
                     System.out.println("Entere the student Id to delete: ");
                     String deleteID = sc.next();
                     deleteStudent(students, deleteID);
                     break;
-                case 3:
+                case UPDATE_STUDENT:
                     System.out.println("-------------修改学生-------------");
                     System.out.println("Enter the student Id to update: ");
                     String studentId = sc.next();
                     updateStudent(students, studentId);
                     break;
-                case 4:
+                case QUERY_STUDENT:
                     System.out.println("-------------查询学生-------------");
                     System.out.println("Enter the student Id to search: ");
                     String studentID = sc.next();
                     searchStudent(students, studentID);
                     break;
-                case 5:
+                case EXIT:
                     System.out.println("-------------退出-------------");
                     flag = false;
                     break;
@@ -124,7 +129,7 @@ public class studentManagement {
 
     // search student
     private static void searchStudent(ArrayList<Student> students, String id) {
-        System.out.println("id    "+"name    "+"age    "+"address");
+        System.out.println("id    " + "name    " + "age    " + "address");
         for (Student student : students) {
             if (student.getId().equals(id)) {
                 System.out.println(student);
