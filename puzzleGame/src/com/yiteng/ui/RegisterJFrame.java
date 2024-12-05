@@ -5,8 +5,16 @@ import javax.swing.*;
 public class RegisterJFrame extends JFrame {
 
     public RegisterJFrame() {
+        //set the size of the window
         this.setTitle("Register");
         this.setSize(488,500);
+        //set the window always on top
+        this.setAlwaysOnTop(true);
+        //set the window to the middle
+        this.setLocationRelativeTo(null);
+        //set game close method
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //set the window is visible
         this.setVisible(true);
     }
 }
