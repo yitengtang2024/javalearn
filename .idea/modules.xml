@@ -14,6 +14,7 @@
       <module fileurl="file://$PROJECT_DIR$/day14-code/day14-code.iml" filepath="$PROJECT_DIR$/day14-code/day14-code.iml" />
       <module fileurl="file://$PROJECT_DIR$/day15-code/day15-code.iml" filepath="$PROJECT_DIR$/day15-code/day15-code.iml" />
       <module fileurl="file://$PROJECT_DIR$/heima.iml" filepath="$PROJECT_DIR$/heima.iml" />
+      <module fileurl="file://$PROJECT_DIR$/puzzleGame/puzzleGame.iml" filepath="$PROJECT_DIR$/puzzleGame/puzzleGame.iml" />
     </modules>
   </component>
 </project>
