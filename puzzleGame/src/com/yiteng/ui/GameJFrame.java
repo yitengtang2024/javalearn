@@ -1,5 +1,6 @@
 package com.yiteng.ui;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,12 +8,33 @@ import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
-public class GameJFrame extends JFrame implements KeyListener {
+public class GameJFrame extends JFrame implements KeyListener,ActionListener {
+    //set the sub menu under the main menu
+    JMenuItem reloadGame = new JMenuItem("Reload Game");
+    JMenuItem relogin = new JMenuItem("Relogin");
+    JMenuItem exiteGame = new JMenuItem("Exit");
+    JMenuItem contact = new JMenuItem("Contact");
+
+    JMenuItem girl = new JMenuItem("Girl");
+    JMenuItem animal = new JMenuItem("Animal");
+    JMenuItem sport = new JMenuItem("Sport");
+
+
     //create 2D array to manage the image position
     //used for multiple function below initData(), initImage().
     int[][] imagePosition = new int[4][4];
-    int x =0;
-    int y =0;
+    int[][] winArray = {
+            {1, 2, 3, 4},
+            {5, 6, 7, 8},
+            {9, 10, 11, 12},
+            {13, 14, 15, 0}
+    };
+    String path = "/Users/yitengtang/Desktop/heima/puzzleGame/image/animal/animal1/";///Users/yitengtang/Desktop/heima/puzzleGame/image/animal/animal1/1.jpg
+    // the x, y position of picture 0 empty space
+    int x = 0;
+    int y = 0;
+    // the steps count
+    int steps = 0;
 
     public GameJFrame() {
         //init the play window
@@ -36,22 +58,28 @@ public class GameJFrame extends JFrame implements KeyListener {
         JMenuBar menuBar = new JMenuBar();
         JMenu function = new JMenu("Function");
         JMenu about = new JMenu("About");
-        //set the sub menu under the main menu
-        JMenuItem reloadGame = new JMenuItem("Reload Game");
-        JMenuItem relogin = new JMenuItem("Relogin");
-        JMenuItem exiteGame = new JMenuItem("Exit");
-        JMenuItem contact = new JMenuItem("Contact");
+        JMenu changePicture = new JMenu("Change Picture");
+
         //add the function button to the main mennu button as drop list
+        function.add(changePicture);
         function.add(reloadGame);
         function.add(relogin);
         function.add(exiteGame);
         about.add(contact);
+        changePicture.add(girl);
+        changePicture.add(animal);
+        changePicture.add(sport);
 
         //add the main menu to the menuBar
         menuBar.add(function);
         menuBar.add(about);
         //set the menu the the window
         this.setJMenuBar(menuBar);
+        reloadGame.addActionListener(this);
+        relogin.addActionListener(this);
+        exiteGame.addActionListener(this);
+        contact.addActionListener(this);
+        girl.addActionListener(this);
     }
 
     private void initJFrame() {
@@ -76,15 +104,26 @@ public class GameJFrame extends JFrame implements KeyListener {
     private void initImage() {
 
         this.getContentPane().removeAll();
+
         int fileNumber;
+        if (victory()){
+            JLabel victoryLogo = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/win.png"));
+            victoryLogo.setBounds(205,305,197,73);
+            this.getContentPane().add(victoryLogo);
+        }
+
+        JLabel steps = new JLabel("Steps: "+ this.steps);
+        steps.setBounds(50,30,200,30);
+        this.getContentPane().add(steps);
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 fileNumber = imagePosition[i][j];
                 //create a new imageIcon
                 //create a jLabel to accept the imageIcon
-                JLabel jLabel = new JLabel(new ImageIcon("puzzleGame/image/animal/animal1/" + fileNumber + ".jpg"));
+                JLabel jLabel = new JLabel(new ImageIcon(path + fileNumber + ".jpg"));
                 //set he image position before add the lable to the frame
-                jLabel.setBounds(105* j+83, 105 * i+134, 105, 105);
+                jLabel.setBounds(105 * j + 83, 105 * i + 134, 105, 105);
                 //set border
                 jLabel.setBorder(new BevelBorder(BevelBorder.LOWERED));
                 //this refer to the initJFrame address
@@ -93,9 +132,11 @@ public class GameJFrame extends JFrame implements KeyListener {
 
             }
         }
-        JLabel backGround = new JLabel(new ImageIcon("puzzleGame/image/background.png"));
+
+        JLabel backGround = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/background.png"));
         backGround.setBounds(40, 40, 508, 560);
         this.getContentPane().add(backGround);
+
         this.getContentPane().repaint();
     }
 
@@ -111,13 +152,15 @@ public class GameJFrame extends JFrame implements KeyListener {
 
         }
         int count = 0;
+        x=0;
+        y=0;
         for (int i = 0; i < this.imagePosition.length; i++) {
             for (int j = 0; j < this.imagePosition[0].length; j++) {
 
                 this.imagePosition[i][j] = temp[count];
                 count++;
                 //get the location of 0
-                if(this.imagePosition[i][j] == 0){
+                if (this.imagePosition[i][j] == 0) {
                     x = i;
                     y = j;
                 }
@@ -132,45 +175,124 @@ public class GameJFrame extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode();
+        if (code == 65) {
+            this.getContentPane().removeAll();
+            JLabel fullImage = new JLabel(new ImageIcon(path + "all.jpg"));
+            fullImage.setBounds(83, 134, 420, 420);
+            this.getContentPane().add(fullImage);
 
+            JLabel background = new JLabel(new ImageIcon("puzzleGame/image/background.png"));
+            background.setBounds(40, 40, 508, 560);
+            this.getContentPane().add(background);
+            this.repaint();
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        int code = e.getKeyCode();
+        if(victory()){
+            return;
+         }
+         int code = e.getKeyCode();
         // left37,up38,right39,down40
-        if(code == 37){
-            if(y==3){
+        if (code == 37) {
+            if (y == 3) {
                 return;
             }
-            imagePosition[x][y] = imagePosition[x][y+1];
-            imagePosition[x][y+1] = 0;
+            imagePosition[x][y] = imagePosition[x][y + 1];
+            imagePosition[x][y + 1] = 0;
             y++;
+            steps++;
             initImage();
-        }else if(code == 38){
-            if(x==3){
+        } else if (code == 38) {
+            if (x == 3) {
                 return;
             }
-            imagePosition[x][y] = imagePosition[x+1][y];
-            imagePosition[x+1][y] = 0;
+            imagePosition[x][y] = imagePosition[x + 1][y];
+            imagePosition[x + 1][y] = 0;
             x++;
+            steps++;
             initImage();
-        }else if(code == 39){
-            if(y==0){
+        } else if (code == 39) {
+            if (y == 0) {
                 return;
             }
-            imagePosition[x][y] = imagePosition[x][y-1];
-            imagePosition[x][y-1] = 0;
+            imagePosition[x][y] = imagePosition[x][y - 1];
+            imagePosition[x][y - 1] = 0;
             y--;
+            steps++;
             initImage();
-        }else if(code == 40){
-            if(x==0){
+        } else if (code == 40) {
+            if (x == 0) {
                 return;
             }
-            imagePosition[x][y] = imagePosition[x-1][y];
-            imagePosition[x-1][y] = 0;
+            imagePosition[x][y] = imagePosition[x - 1][y];
+            imagePosition[x - 1][y] = 0;
             x--;
+            steps++;
+            initImage();
+        } else if (code == 65) {
+            initImage();
+        }else if (code == 87){
+            imagePosition = winArray;
             initImage();
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        System.out.println(source);
+        Random r = new Random();
+        if (source == reloadGame) {
+            steps = 0;
+            initData();
+            victory();
+            initImage();
+        }else if (source == relogin) {
+            System.out.println("relogin");
+            //close current window
+            this.setVisible(false);
+            //open the login window
+            new LoginJFrame();
+        }else if (source == exiteGame) {
+            System.exit(0);// close JVM
+        }else if (source == contact) {
+            System.out.println("contact");
+            System.out.println(source);
+            // create a prompt window
+            JDialog dialog = new JDialog();
+            JLabel contact = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/about.png"));
+            contact.setBounds(0,0,258,258);
+            dialog.getContentPane().add(contact);
+            dialog.setSize(344,344);
+            dialog.setAlwaysOnTop(true);
+            dialog.setLocationRelativeTo(null);
+            dialog.setModal(true);
+            dialog.setVisible(true);
+        }else if (source == girl) {
+            this.getContentPane().removeAll();
+            int folderNumber = r.nextInt(13)+1;
+            System.out.println(folderNumber);
+            path ="/Users/yitengtang/Desktop/heima/puzzleGame/image/girl/girl"+folderNumber+"/";
+            System.out.println(path);
+            steps = 0;
+            initData();
+            initImage();
+            this.getContentPane().repaint();
+        }
+    }
+
+    private boolean victory() {
+
+        for (int i = 0; i < imagePosition.length; i++) {
+            for (int j = 0; j < imagePosition[0].length; j++) {
+                if (imagePosition[i][j] != winArray[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
