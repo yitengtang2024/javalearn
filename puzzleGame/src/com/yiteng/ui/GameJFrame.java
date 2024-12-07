@@ -10,6 +10,7 @@ import javax.swing.border.BevelBorder;
 
 public class GameJFrame extends JFrame implements KeyListener,ActionListener {
     //set the sub menu under the main menu
+    JMenuItem newGame = new JMenuItem("New Game");
     JMenuItem reloadGame = new JMenuItem("Reload Game");
     JMenuItem relogin = new JMenuItem("Relogin");
     JMenuItem exiteGame = new JMenuItem("Exit");
@@ -61,6 +62,7 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
         JMenu changePicture = new JMenu("Change Picture");
 
         //add the function button to the main mennu button as drop list
+        function.add(newGame);
         function.add(changePicture);
         function.add(reloadGame);
         function.add(relogin);
@@ -75,6 +77,7 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
         menuBar.add(about);
         //set the menu the the window
         this.setJMenuBar(menuBar);
+        newGame.addActionListener(this);
         reloadGame.addActionListener(this);
         relogin.addActionListener(this);
         exiteGame.addActionListener(this);
@@ -106,16 +109,15 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
         this.getContentPane().removeAll();
 
         int fileNumber;
+
+        JLabel steps = new JLabel("Steps: "+ this.steps);
+        steps.setBounds(50,30,200,30);
+        this.getContentPane().add(steps);
         if (victory()){
             JLabel victoryLogo = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/win.png"));
             victoryLogo.setBounds(205,305,197,73);
             this.getContentPane().add(victoryLogo);
         }
-
-        JLabel steps = new JLabel("Steps: "+ this.steps);
-        steps.setBounds(50,30,200,30);
-        this.getContentPane().add(steps);
-
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 fileNumber = imagePosition[i][j];
@@ -132,7 +134,6 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
 
             }
         }
-
         JLabel backGround = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/background.png"));
         backGround.setBounds(40, 40, 508, 560);
         this.getContentPane().add(backGround);
@@ -182,7 +183,7 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
             fullImage.setBounds(83, 134, 420, 420);
             this.getContentPane().add(fullImage);
 
-            JLabel background = new JLabel(new ImageIcon("puzzleGame/image/background.png"));
+            JLabel background = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/background.png"));
             background.setBounds(40, 40, 508, 560);
             this.getContentPane().add(background);
             this.repaint();
@@ -245,12 +246,16 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
         Object source = e.getSource();
         System.out.println(source);
         Random r = new Random();
-        if (source == reloadGame) {
+        if (source == reloadGame && !victory()) {//this can be only used before victory
             steps = 0;
             initData();
             victory();
             initImage();
-        }else if (source == relogin) {
+        }else if(source == newGame){//start a new game
+            this.dispose();
+            new GameJFrame();
+
+        } else if (source == relogin) {
             System.out.println("relogin");
             //close current window
             this.setVisible(false);
@@ -271,7 +276,7 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
             dialog.setLocationRelativeTo(null);
             dialog.setModal(true);
             dialog.setVisible(true);
-        }else if (source == girl) {
+        }else if (source == girl && !victory()) {
             this.getContentPane().removeAll();
             int folderNumber = r.nextInt(13)+1;
             System.out.println(folderNumber);
