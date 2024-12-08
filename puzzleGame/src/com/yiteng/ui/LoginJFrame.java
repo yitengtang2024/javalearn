@@ -1,20 +1,19 @@
 package com.yiteng.ui;
 
 import com.yiteng.domain.User;
+import com.yiteng.domain.UserManager;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicButtonListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
 
 public class LoginJFrame extends JFrame implements ActionListener{
+    private UserManager userManager;
 
     String path = "image/login/";
     //arrayList to save the user information
@@ -32,24 +31,16 @@ public class LoginJFrame extends JFrame implements ActionListener{
 
     String token = generateToken();
 
-    public LoginJFrame() {
-        //init the gameMaster account
-        initUser();
+    public LoginJFrame(UserManager userManager) {
+        this.userManager = userManager;
+
         //create the registor JFrame window
         initJFrame();
         // initial the registor window image and login password textbox
         initImage();
     }
 
-    private void initUser() {
-        User u1 = new User("gamemaster","123456");
-        User u2 = new User("user2","abcde");
-        users.add(u1);
-        users.add(u2);
-        for (User user : users) {
-            System.out.println(user);
-        }
-    }
+
 
     private void initJFrame() {
         //set the size of the window
@@ -179,18 +170,7 @@ public class LoginJFrame extends JFrame implements ActionListener{
         g2d.dispose();
         return new ImageIcon(image);
     }
-    //compare the userinput and password input to confirm if it is valid
-    private boolean userNamePasswordMatch(){
-        String username = userinput.getText();
-        String password = passwordinput.getText();
-        for (User user : users) {
-            if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
-                return true;
-            }
 
-        }
-        return false;
-    }
     //compare the token is valid
     private boolean tokenSame(){
         String userToken = tokeninput.getText();
@@ -200,13 +180,16 @@ public class LoginJFrame extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
+        String userInput = userinput.getText();
+        String passwordInput = passwordinput.getText();
 
 
         if(command.equals("login")){
-            if(userNamePasswordMatch()&&tokenSame()){
+            if(userManager.userNamePassWordMatch(userInput,passwordInput)&&tokenSame()){
+                User loggedInUser = userManager.getUserByUsername(userInput);
                 this.dispose();
-                new GameJFrame();
-            }else if(!userNamePasswordMatch()){
+                new GameJFrame(userManager,loggedInUser);
+            }else if(!userManager.userNamePassWordMatch(userInput,passwordInput)){
                 JOptionPane.showMessageDialog(this,"the username or password is incorrect");
             }else if(!tokenSame()){
                 JOptionPane.showMessageDialog(this,"the token is incorrect");
@@ -216,7 +199,7 @@ public class LoginJFrame extends JFrame implements ActionListener{
 
         }else if(command.equals("registor")){
 
-            new RegisterJFrame();
+            new RegisterJFrame(userManager);
             //close the login window
             this.dispose();
         }else if(command.equals("showPass")){

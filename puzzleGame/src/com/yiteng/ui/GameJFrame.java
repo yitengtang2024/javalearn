@@ -1,5 +1,8 @@
 package com.yiteng.ui;
 
+import com.yiteng.domain.User;
+import com.yiteng.domain.UserManager;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -9,6 +12,8 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
 public class GameJFrame extends JFrame implements KeyListener,ActionListener {
+    private UserManager userManager;
+    private User currentUser;
     //set the sub menu under the main menu
     JMenuItem newGame = new JMenuItem("New Game");
     JMenuItem reloadGame = new JMenuItem("Reload Game");
@@ -37,7 +42,9 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
     // the steps count
     int steps = 0;
 
-    public GameJFrame() {
+    public GameJFrame(UserManager userManager, User currentUser) {
+        this.userManager = userManager;
+        this.currentUser = currentUser;
         //init the play window
         initJFrame();
         //init the menu bar
@@ -253,14 +260,14 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
             initImage();
         }else if(source == newGame){//start a new game
             this.dispose();
-            new GameJFrame();
+            new GameJFrame(userManager, currentUser);
 
         } else if (source == relogin) {
             System.out.println("relogin");
             //close current window
             this.setVisible(false);
             //open the login window
-            new LoginJFrame();
+            new LoginJFrame(userManager);
         }else if (source == exiteGame) {
             System.exit(0);// close JVM
         }else if (source == contact) {
