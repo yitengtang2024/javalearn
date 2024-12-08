@@ -35,7 +35,7 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
             {9, 10, 11, 12},
             {13, 14, 15, 0}
     };
-    String path = "/Users/yitengtang/Desktop/heima/puzzleGame/image/animal/animal1/";///Users/yitengtang/Desktop/heima/puzzleGame/image/animal/animal1/1.jpg
+    String path = "src/image/animal/animal1/";///Users/yitengtang/Desktop/heima/puzzleGame/image/animal/animal1/1.jpg
     // the x, y position of picture 0 empty space
     int x = 0;
     int y = 0;
@@ -90,6 +90,8 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
         exiteGame.addActionListener(this);
         contact.addActionListener(this);
         girl.addActionListener(this);
+        sport.addActionListener(this);
+        animal.addActionListener(this);
     }
 
     private void initJFrame() {
@@ -121,7 +123,7 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
         steps.setBounds(50,30,200,30);
         this.getContentPane().add(steps);
         if (victory()){
-            JLabel victoryLogo = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/win.png"));
+            JLabel victoryLogo = new JLabel(new ImageIcon("src/image/win.png"));
             victoryLogo.setBounds(205,305,197,73);
             this.getContentPane().add(victoryLogo);
         }
@@ -141,7 +143,7 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
 
             }
         }
-        JLabel backGround = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/background.png"));
+        JLabel backGround = new JLabel(new ImageIcon("src/image/background.png"));
         backGround.setBounds(40, 40, 508, 560);
         this.getContentPane().add(backGround);
 
@@ -190,7 +192,7 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
             fullImage.setBounds(83, 134, 420, 420);
             this.getContentPane().add(fullImage);
 
-            JLabel background = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/background.png"));
+            JLabel background = new JLabel(new ImageIcon("src/image/background.png"));
             background.setBounds(40, 40, 508, 560);
             this.getContentPane().add(background);
             this.repaint();
@@ -275,7 +277,7 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
             System.out.println(source);
             // create a prompt window
             JDialog dialog = new JDialog();
-            JLabel contact = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/about.png"));
+            JLabel contact = new JLabel(new ImageIcon("src/image/about.png"));
             contact.setBounds(0,0,258,258);
             dialog.getContentPane().add(contact);
             dialog.setSize(344,344);
@@ -287,7 +289,27 @@ public class GameJFrame extends JFrame implements KeyListener,ActionListener {
             this.getContentPane().removeAll();
             int folderNumber = r.nextInt(13)+1;
             System.out.println(folderNumber);
-            path ="/Users/yitengtang/Desktop/heima/puzzleGame/image/girl/girl"+folderNumber+"/";
+            path ="src/image/girl/girl"+folderNumber+"/";
+            System.out.println(path);
+            steps = 0;
+            initData();
+            initImage();
+            this.getContentPane().repaint();
+        }else if (source == animal && !victory()) {
+            this.getContentPane().removeAll();
+            int folderNumber = r.nextInt(8)+1;
+            System.out.println(folderNumber);
+            path ="src/image/animal/animal"+folderNumber+"/";
+            System.out.println(path);
+            steps = 0;
+            initData();
+            initImage();
+            this.getContentPane().repaint();
+        }else if (source == sport){
+            this.getContentPane().removeAll();
+            int folderNumber = r.nextInt(10)+1;
+            System.out.println(folderNumber);
+            path ="src/image/sport/sport"+folderNumber+"/";
             System.out.println(path);
             steps = 0;
             initData();

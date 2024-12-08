@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class RegisterJFrame extends JFrame implements ActionListener {
 
     //root path of all the images
-    String path = "image/register/";
+    String path = "src/image/register/";
     //pass users ArrayList
     private UserManager userManager;
     //username input text
@@ -81,7 +81,7 @@ public class RegisterJFrame extends JFrame implements ActionListener {
 
         reset.setBounds(240, 300, 128, 47);
         this.getContentPane().add(reset);
-        JLabel backGround = new JLabel(new ImageIcon("/Users/yitengtang/Desktop/heima/puzzleGame/image/register/background.png"));
+        JLabel backGround = new JLabel(new ImageIcon("src/image/register/background.png"));
         backGround.setBounds(0, 0, 470, 390);
         this.getContentPane().add(backGround);
         this.setVisible(true);

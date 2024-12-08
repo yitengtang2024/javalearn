@@ -15,7 +15,7 @@ import java.util.Random;
 public class LoginJFrame extends JFrame implements ActionListener{
     private UserManager userManager;
 
-    String path = "image/login/";
+    String path = "src/image/login/";
     //arrayList to save the user information
     ArrayList<User> users = new ArrayList<User>();
     //username and password input field

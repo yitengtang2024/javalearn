@@ -13,7 +13,7 @@ public class App {
 
         //load users from file
         try {
-            userManager.loadFromFile("/Users/yitengtang/Desktop/heima/puzzleGame/src/com/yiteng/domain/users.txt");
+            userManager.loadFromFile("src/com/yiteng/domain/users.txt");
         } catch (IOException e) {
             System.out.println("No existing user data found.");
         }
@@ -28,7 +28,7 @@ public class App {
         // Save users on application exit
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                userManager.saveToFile("/Users/yitengtang/Desktop/heima/puzzleGame/src/com/yiteng/domain/users.txt");
+                userManager.saveToFile("src/com/yiteng/domain/users.txt");
             } catch (IOException e) {
                 e.printStackTrace();
             }
