@@ -1,14 +1,12 @@
 package com.yiteng.domain;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class UserManager {
     private ArrayList<User> users;
     public UserManager() {
         users = new ArrayList<>();
-        //add default values
-        users.add(new User("gamemaster", "123456"));
-        users.add(new User("user2", "abcde"));
     }
 
     //method to get all users
@@ -50,5 +48,34 @@ public class UserManager {
             }
         }
         return null;
+    }
+
+    //create I/O to save the user information
+    public void saveToFile(String filePath) throws IOException {
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))){
+            for (User user : users) {
+                bw.write(user.getUsername() +","+user.getPassword());
+                bw.newLine();
+            }
+        }
+    }
+    //load user from a text file
+    public void loadFromFile(String filePath) throws IOException {
+        try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if(parts.length == 2){
+                    users.add(new User(parts[0], parts[1]));//add all user
+                }
+            }
+        }
+    }
+
+    //print all users for debugging
+    public void printUsers() {
+        for (User user : users) {
+            System.out.println(user.getUsername() + "," + user.getPassword());
+        }
     }
 }
