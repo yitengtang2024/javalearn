@@ -28,7 +28,7 @@ public class A01_LIstDemo2 {
 
 
         //手动装箱，手动把基本数据类型的1，变成Integer类型
-        Integer i = Integer.valueOf(1);
+        Integer i = 1;
 
         list.remove(i);
 
