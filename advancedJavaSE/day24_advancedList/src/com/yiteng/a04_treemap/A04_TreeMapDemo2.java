@@ -10,6 +10,7 @@ public class A04_TreeMapDemo2 {
             public int compare(Integer o1, Integer o2){
                 return o1 - o2;
             }
-        })
+        });
+        TreeMap<Integer, String> tm2 = new TreeMap<>((o1, o2)-> o1 - o2);
     }
 }

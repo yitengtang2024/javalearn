@@ -8,10 +8,10 @@ public class Student implements Comparable<Student> {
         if(this.age != o.age){
             return this.age - o.age;
         }
-        if(this.name != o.name){
+        if(!this.name.equalsIgnoreCase(o.name)){
             return this.name.compareTo(o.name);
         }
-        return 0;
+        return 0;//0 means the element already exist in the tree
     }
 
     private String name;
